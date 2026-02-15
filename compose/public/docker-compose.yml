@@ -43,6 +43,7 @@ services:
         }
         gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT}
     ports:
+      - "${GITLAB_HTTP_PORT}:80"
       - "${GITLAB_SSH_PORT}:22"
     expose:
       - "80"
