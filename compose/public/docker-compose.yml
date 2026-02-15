@@ -114,11 +114,11 @@ services:
       ATL_JDBC_USER: ${JIRA_DB_USER}
       ATL_JDBC_PASSWORD: ${JIRA_DB_PASSWORD}
       ATL_PROXY_NAME: ${JIRA_DOMAIN}
-      ATL_PROXY_PORT: 443
-      ATL_TOMCAT_SCHEME: https
-      ATL_TOMCAT_SECURE: "true"
-    expose:
-      - "8080"
+      ATL_PROXY_PORT: ${JIRA_PROXY_PORT}
+      ATL_TOMCAT_SCHEME: ${JIRA_TOMCAT_SCHEME}
+      ATL_TOMCAT_SECURE: ${JIRA_TOMCAT_SECURE}
+    ports:
+      - "${JIRA_HTTP_PORT}:8080"
     volumes:
       - ./volumes/jira/home:/var/atlassian/application-data/jira
     networks:
