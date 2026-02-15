@@ -19,20 +19,7 @@ mkdir -p "$ROOT/compose/jira/volumes/jira-home" "$ROOT/compose/jira/volumes/post
 mkdir -p "$ROOT/compose/public/volumes/gitlab/config" "$ROOT/compose/public/volumes/gitlab/logs" "$ROOT/compose/public/volumes/gitlab/data"
 mkdir -p "$ROOT/compose/public/volumes/immich/model-cache" "$ROOT/compose/public/volumes/immich/postgres" "$ROOT/compose/public/volumes/jira/home" "$ROOT/compose/public/volumes/jira/postgres"
 
-# Start local-only stacks first
-(
-  cd "$ROOT/compose/gitlab"
-  docker compose pull
-  docker compose up -d
-)
-
-(
-  cd "$ROOT/compose/jira"
-  docker compose pull
-  docker compose up -d
-)
-
-# Start public stack (reverse proxy + all services)
+# Start public stack (reverse proxy + GitLab + Immich + Jira)
 (
   cd "$ROOT/compose/public"
   docker compose pull
