@@ -1,0 +1,5 @@
+.env
+volumes/
+launchd.out.log
+launchd.err.log
+*.log
