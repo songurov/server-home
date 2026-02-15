@@ -9,7 +9,7 @@ services:
     shm_size: "256m"
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://${GITLAB_DOMAIN}'
+        external_url 'http://${GITLAB_DOMAIN}:${GITLAB_HTTP_PORT}'
         letsencrypt['enable'] = false
         nginx['listen_port'] = 80
         nginx['listen_https'] = false

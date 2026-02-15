@@ -23,6 +23,8 @@ Acest repo urmareste implementarea si operarea stack-ului:
 - `docs/runbook.md` - operatiuni zilnice, backup, recovery
 - `docs/public-exposure.md` - setup domeniu + expunere in internet
 - `compose/public/` - stack Docker public (Caddy + GitLab + Immich + Jira)
+- `compose/gitlab/` - stack GitLab-only local
+- `compose/jira/` - stack Jira-only local
 
 ## Principii
 
