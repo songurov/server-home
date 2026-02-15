@@ -3,6 +3,8 @@
 ## General
 
 - [ ] Defineste IP fix / hostname local pentru servere.
+- [ ] Configureaza DNS public: `gitlab.<domeniu>`, `immich.<domeniu>`, `jira.<domeniu>`.
+- [ ] Configureaza port forwarding in router pentru `80`, `443`, `2222`.
 - [ ] Defineste calea pentru date persistente (ex: `/Users/songurov/server-data`).
 - [ ] Configureaza backup zilnic pentru volume critice.
 - [ ] Configureaza monitorizare uptime (healthcheck + alerte simple).

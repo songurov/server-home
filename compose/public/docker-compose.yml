@@ -1,0 +1,145 @@
+name: server-home-public
+
+services:
+  caddy:
+    image: caddy:2.8
+    container_name: caddy-edge
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      GITLAB_DOMAIN: ${GITLAB_DOMAIN}
+      IMMICH_DOMAIN: ${IMMICH_DOMAIN}
+      JIRA_DOMAIN: ${JIRA_DOMAIN}
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - gitlab
+      - immich-server
+      - jira
+    networks:
+      - edge
+      - internal
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: ${GITLAB_DOMAIN}
+    restart: unless-stopped
+    shm_size: "256m"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://${GITLAB_DOMAIN}'
+        letsencrypt['enable'] = false
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on",
+          "Host" => "${GITLAB_DOMAIN}"
+        }
+        gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_SSH_PORT}
+    ports:
+      - "${GITLAB_SSH_PORT}:22"
+    expose:
+      - "80"
+    volumes:
+      - ./volumes/gitlab/config:/etc/gitlab
+      - ./volumes/gitlab/logs:/var/log/gitlab
+      - ./volumes/gitlab/data:/var/opt/gitlab
+    networks:
+      - internal
+
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
+    container_name: immich-server
+    restart: unless-stopped
+    command: ["start.sh", "immich"]
+    env_file:
+      - .env
+    depends_on:
+      - immich-db
+      - redis
+    expose:
+      - "2283"
+    volumes:
+      - ${IMMICH_UPLOAD_LOCATION}:/usr/src/app/upload
+    networks:
+      - internal
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}
+    container_name: immich-ml
+    restart: unless-stopped
+    command: ["start.sh", "immich-machine-learning"]
+    env_file:
+      - .env
+    volumes:
+      - ./volumes/immich/model-cache:/cache
+    networks:
+      - internal
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: immich-redis
+    restart: unless-stopped
+    networks:
+      - internal
+
+  immich-db:
+    image: postgres:16
+    container_name: immich-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./volumes/immich/postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira
+    restart: unless-stopped
+    depends_on:
+      - jira-db
+    environment:
+      ATL_JDBC_URL: jdbc:postgresql://jira-db:5432/${JIRA_DB_NAME}
+      ATL_JDBC_USER: ${JIRA_DB_USER}
+      ATL_JDBC_PASSWORD: ${JIRA_DB_PASSWORD}
+      ATL_PROXY_NAME: ${JIRA_DOMAIN}
+      ATL_PROXY_PORT: 443
+      ATL_TOMCAT_SCHEME: https
+      ATL_TOMCAT_SECURE: "true"
+    expose:
+      - "8080"
+    volumes:
+      - ./volumes/jira/home:/var/atlassian/application-data/jira
+    networks:
+      - internal
+
+  jira-db:
+    image: postgres:15
+    container_name: jira-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${JIRA_DB_NAME}
+      POSTGRES_USER: ${JIRA_DB_USER}
+      POSTGRES_PASSWORD: ${JIRA_DB_PASSWORD}
+    volumes:
+      - ./volumes/jira/postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  edge:
+  internal:
+
+volumes:
+  caddy_data:
+  caddy_config:

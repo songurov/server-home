@@ -21,6 +21,8 @@ Acest repo urmareste implementarea si operarea stack-ului:
 - `docs/architecture.md` - arhitectura si decizii
 - `docs/services/` - detalii pe serviciu
 - `docs/runbook.md` - operatiuni zilnice, backup, recovery
+- `docs/public-exposure.md` - setup domeniu + expunere in internet
+- `compose/public/` - stack Docker public (Caddy + GitLab + Immich + Jira)
 
 ## Principii
 

@@ -1,0 +1,11 @@
+{$GITLAB_DOMAIN} {
+  reverse_proxy gitlab:80
+}
+
+{$IMMICH_DOMAIN} {
+  reverse_proxy immich-server:2283
+}
+
+{$JIRA_DOMAIN} {
+  reverse_proxy jira:8080
+}
