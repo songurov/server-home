@@ -11,7 +11,7 @@ services:
     environment:
       GITLAB_DOMAIN: ${GITLAB_DOMAIN}
       IMMICH_DOMAIN: ${IMMICH_DOMAIN}
-      JIRA_DOMAIN: ${JIRA_DOMAIN}
+      PLANE_DOMAIN: ${PLANE_DOMAIN}
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -19,7 +19,6 @@ services:
     depends_on:
       - gitlab
       - immich-server
-      - jira
     networks:
       - edge
       - internal
@@ -100,40 +99,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./volumes/immich/postgres:/var/lib/postgresql/data
-    networks:
-      - internal
-
-  jira:
-    image: atlassian/jira-software:latest
-    container_name: jira
-    restart: unless-stopped
-    depends_on:
-      - jira-db
-    environment:
-      ATL_JDBC_URL: jdbc:postgresql://jira-db:5432/${JIRA_DB_NAME}
-      ATL_JDBC_USER: ${JIRA_DB_USER}
-      ATL_JDBC_PASSWORD: ${JIRA_DB_PASSWORD}
-      ATL_PROXY_NAME: ${JIRA_DOMAIN}
-      ATL_PROXY_PORT: ${JIRA_PROXY_PORT}
-      ATL_TOMCAT_SCHEME: ${JIRA_TOMCAT_SCHEME}
-      ATL_TOMCAT_SECURE: ${JIRA_TOMCAT_SECURE}
-    ports:
-      - "${JIRA_HTTP_PORT}:8080"
-    volumes:
-      - ./volumes/jira/home:/var/atlassian/application-data/jira
-    networks:
-      - internal
-
-  jira-db:
-    image: postgres:15
-    container_name: jira-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${JIRA_DB_NAME}
-      POSTGRES_USER: ${JIRA_DB_USER}
-      POSTGRES_PASSWORD: ${JIRA_DB_PASSWORD}
-    volumes:
-      - ./volumes/jira/postgres:/var/lib/postgresql/data
     networks:
       - internal
 

@@ -6,7 +6,7 @@ Creeaza in providerul tau DNS 3 inregistrari `A` (sau `AAAA` daca ai IPv6):
 
 - `gitlab.<domeniu>` -> IP-ul public al conexiunii tale
 - `immich.<domeniu>` -> IP-ul public al conexiunii tale
-- `jira.<domeniu>` -> IP-ul public al conexiunii tale
+- `plane.<domeniu>` -> IP-ul public al conexiunii tale
 
 Daca IP-ul public este dinamic, configureaza DDNS la router.
 
@@ -52,7 +52,7 @@ docker compose logs -f caddy
 
 - `https://gitlab.<domeniu>`
 - `https://immich.<domeniu>`
-- `https://jira.<domeniu>`
+- `https://plane.<domeniu>`
 
 GitLab SSH clone va folosi portul 2222:
 
@@ -62,7 +62,7 @@ git clone ssh://git@gitlab.<domeniu>:2222/group/proiect.git
 
 ## 6. Hardening minim
 
-- activeaza 2FA in GitLab si Jira
+- activeaza 2FA in GitLab si Plane
 - foloseste parole unice pentru toate DB-urile
 - activeaza backup zilnic pentru volume
 - restrictioneaza login admin dupa setup

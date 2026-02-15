@@ -6,6 +6,6 @@
   reverse_proxy immich-server:2283
 }
 
-{$JIRA_DOMAIN} {
-  reverse_proxy jira:8080
+{$PLANE_DOMAIN} {
+  reverse_proxy host.docker.internal:3000
 }

@@ -3,7 +3,7 @@
 ## General
 
 - [ ] Defineste IP fix / hostname local pentru servere.
-- [ ] Configureaza DNS public: `gitlab.<domeniu>`, `immich.<domeniu>`, `jira.<domeniu>`.
+- [ ] Configureaza DNS public: `gitlab.<domeniu>`, `immich.<domeniu>`, `plane.<domeniu>`.
 - [ ] Configureaza port forwarding in router pentru `80`, `443`, `2222`.
 - [ ] Defineste calea pentru date persistente (ex: `/Users/songurov/server-data`).
 - [ ] Configureaza backup zilnic pentru volume critice.
@@ -24,12 +24,12 @@
 - [ ] Configureaza backup pentru PostgreSQL.
 - [ ] Testeaza upload, indexing, face detection.
 
-## Jira
+## Plane
 
-- [ ] Creeaza `compose/jira/docker-compose.yml`.
-- [ ] Configureaza PostgreSQL separat.
-- [ ] Configureaza backup automat DB + home directory.
-- [ ] Verifica acces UI + performanta initiala.
+- [ ] Ruleaza installerul oficial Plane in `compose/plane`.
+- [ ] Configureaza Plane pe `localhost:3000`.
+- [ ] Configureaza proxy public prin Caddy catre `plane.<domeniu>`.
+- [ ] Verifica acces UI + creare proiect/issue.
 
 ## Proxmox
 

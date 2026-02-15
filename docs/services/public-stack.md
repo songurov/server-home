@@ -6,7 +6,7 @@
 
 ## Include
 
-- `docker-compose.yml` cu Caddy + GitLab + Immich + Jira
+- `docker-compose.yml` cu Caddy + GitLab + Immich + proxy pentru Plane
 - `caddy/Caddyfile` pentru reverse proxy TLS
 - `.env.example` cu variabilele necesare
 

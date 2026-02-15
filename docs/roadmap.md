@@ -19,10 +19,10 @@
 2. Monteaza storage media dedicat.
 3. Configureaza backup DB + media metadata.
 
-## Faza 4 - Jira
+## Faza 4 - Plane (open-source)
 
-1. Ruleaza Jira + PostgreSQL dedicat.
-2. Configureaza volume persistente si snapshot-uri periodice.
+1. Ruleaza Plane CE cu installerul oficial self-hosted.
+2. Configureaza runtime pe port local 3000.
 3. Configureaza URL intern + reverse proxy (optional).
 
 ## Faza 5 - Proxmox (Host separat)

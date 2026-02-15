@@ -10,7 +10,7 @@
 
 - GitLab CE: SCM + CI local.
 - Immich: photo/video management.
-- Jira Software: project tracking.
+- Plane CE: project tracking open-source.
 
 ## Constrangeri
 
